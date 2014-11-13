@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	private float rotationspeed = 100f;
 	public int MoveDirection = 0;
 	public SharpJoystick JoyStickLeft;
+	private Animator anim;
 	
 	//public SharpJoystick joyStickRight;
 	private CharacterController guy;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour {
 		gameObject.SetActive(false);
 		Debug.LogError("Unable to find character controller for the player");
 	}
+		anim = gameObject.GetComponentInChildren<Animator>();
 	}
 
 	void Update () {
@@ -39,9 +41,9 @@ public class PlayerController : MonoBehaviour {
 				transform.rotation *= Quaternion.Euler(0,rotationspeed*Time.deltaTime,0);
 		}
 		guy.SimpleMove(transform.TransformDirection(Vector3.forward)*movespeed*speed_signum);
-		if (speed_signum > 0)MoveDirection = 1;
-		else if (speed_signum < 0)MoveDirection = -1;
-		else MoveDirection = 0;
+		if (speed_signum > 0) anim.SetInteger("movedir",1);
+		else if (speed_signum < 0)anim.SetInteger("movedir",-1);
+		else anim.SetInteger("movedir",0);;
 	}
 	
 	

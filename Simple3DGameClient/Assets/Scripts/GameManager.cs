@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+public enum GState {Moving, Idle};
+
 public class GameManager : MonoBehaviour {
 
 	
@@ -9,6 +12,7 @@ public class GameManager : MonoBehaviour {
 	//public SharpJoystick LeftJoystick;
 	private int bonus_counter = 0;
 	public int WIN_CONDITION = 2;
+	public GState GameState = GState.Moving;
 	
 	Player player;
 	ArrayList bonus_list = new ArrayList();
@@ -28,9 +32,10 @@ public class GameManager : MonoBehaviour {
 				item.gameObject.SetActive(true);
 	}
 	
-	void Update () {
-		ExchangeWithUI();
-	
+	void Update () 
+	{
+		if (GameState == GState.Moving) ExchangeWithUI();
+		else if (GameState == GState.Idle) player.DisablePlayer();
 	}
 	void ExchangeWithUI()
 	{
@@ -56,11 +61,13 @@ public class GameManager : MonoBehaviour {
 	
 	void DoGameover()
 	{
+		GameState = GState.Idle;
 		player.DisablePlayer();
 		UI.ShowLossScreen();
 	}
 	void DoWin()
 	{
+		GameState = GState.Idle;
 		player.DisablePlayer();
 		UI.ShowWinScreen();
 	}
