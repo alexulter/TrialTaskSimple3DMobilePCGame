@@ -17,7 +17,6 @@ static private float tapTimeDelta = 0.3f;				// Time allowed between taps
 
 private bool touchPad = false; 									// Is this a TouchPad?
 public Rect touchZone;
-public Vector2 deadZone = Vector2.zero;						// Control when position is output
 public bool normalize = false; 							// Normalize output after the dead-zone?
 public Vector2 position; 									// [-1, 1] in x,y
 public int tapCount;											// Current tap count
@@ -25,8 +24,6 @@ public int tapCount;											// Current tap count
 private int lastFingerId = -1;								// Finger last used for this joystick
 private float tapTimeWindow;							// How much time there is left for a tap to occur
 private Vector2 fingerDownPos;
-//private float fingerDownTime;
-//private float firstDeltaTime = 0.5f;
 
 private GUITexture gui;								// Joystick graphic
 private Rect defaultRect;								// Default position / extents of the joystick graphic
@@ -120,20 +117,11 @@ void Update()
 	
 	int count = Input.touchCount;
 	
-	// Adjust the tap time window while it still available
-//	if ( tapTimeWindow > 0 )
-//		tapTimeWindow -= Time.deltaTime;
-//	else
-//		tapCount = 0;
-	
 	if ( count == 0 )
 		ResetJoystick();
 	else
 	{
 			int i = 0;
-//		for(int i = 0;i < count; i++)
-//		{
-			
 			Touch touch = Input.GetTouch(i);			
 			Vector2 guiTouchPos = touch.position - guiTouchOffset;
 			
@@ -206,7 +194,6 @@ void Update()
 				if ( touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled )
 					ResetJoystick();					
 			}			
-//		}
 	}
 	
 	if ( !touchPad )
@@ -215,31 +202,5 @@ void Update()
 		position.x = ( gui.pixelInset.x + guiTouchOffset.x - guiCenter.x ) / guiTouchOffset.x;
 		position.y = ( gui.pixelInset.y + guiTouchOffset.y - guiCenter.y ) / guiTouchOffset.y;
 	}
-	
-//	// Adjust for dead zone	
-//	var absoluteX = Mathf.Abs( position.x );
-//	var absoluteY = Mathf.Abs( position.y );
-//	
-//	if ( absoluteX < deadZone.x )
-//	{
-//		// Report the joystick as being at the center if it is within the dead zone
-//		position.x = 0;
-//	}
-//	else if ( normalize )
-//	{
-//		// Rescale the output after taking the dead zone into account
-//		position.x = Mathf.Sign( position.x ) * ( absoluteX - deadZone.x ) / ( 1 - deadZone.x );
-//	}
-//	
-//	if ( absoluteY < deadZone.y )
-//	{
-//		// Report the joystick as being at the center if it is within the dead zone
-//		position.y = 0;
-//	}
-//	else if ( normalize )
-//	{
-//		// Rescale the output after taking the dead zone into account
-//		position.y = Mathf.Sign( position.y ) * ( absoluteY - deadZone.y ) / ( 1 - deadZone.y );
-//	}
 }
 }
