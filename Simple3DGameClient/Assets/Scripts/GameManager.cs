@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour {
 	}
 	void ExchangeWithUI()
 	{
-		
+		UI.bonuses_count = bonus_counter;
+		UI.bonuses_need = WIN_CONDITION;
 	}
 	
 	public void SetPlayer(Player guy)

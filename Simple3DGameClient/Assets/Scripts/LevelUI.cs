@@ -9,17 +9,27 @@ public class LevelUI : MonoBehaviour {
 	public GameObject PanelLoss;
 	public GameObject PanelWin;
 	private bool isRestartOnEnter = false;
-	
 	[System.NonSerialized]
 	public GameManager manager;
 	
+	
+	//game parameters from gamemanager
+	public int bonuses_count;
+	public int bonuses_need;
+	
+	//Textfields
+	private Text BonusesText;
+	
 	void Start () {
-
+		Transform gg = PanelLevel.transform.FindChild("Text_Bonuses");
+		BonusesText = gg.gameObject.GetComponent<Text>();
 	}
 	
 	
 	void Update () {
 		if (isRestartOnEnter && Input.GetKeyDown(KeyCode.Return)) RestartLevel();
+		if (BonusesText != null) BonusesText.text = "Bonuses picked: "+
+			bonuses_count.ToString()+"/"+bonuses_need.ToString();
 	}
 	
 	public void ShowWinScreen()
