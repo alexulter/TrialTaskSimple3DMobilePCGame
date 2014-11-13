@@ -1,0 +1,32 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class Player : MonoBehaviour {
+
+	
+	GameManager manager;
+	void Awake()
+	{
+		FindSpawner();
+		manager = GameObject.FindObjectOfType<GameManager>();
+		if (manager != null) manager.SetPlayer(this);
+		gameObject.SetActive(false);
+	}
+	void Start () {
+		
+	}
+	void FindSpawner()
+	{
+		GameObject go = GameObject.Find("PlayerSpawner");
+		if (go != null) 
+		{
+			transform.position = go.transform.position;
+			transform.rotation = go.transform.rotation;
+			Destroy (go);
+		}
+	}
+	public void DisablePlayer()
+	{
+		gameObject.GetComponent<PlayerController>().enabled = false;
+	}
+}
